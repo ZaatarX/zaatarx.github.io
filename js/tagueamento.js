@@ -73,7 +73,6 @@ let sobre_help = (function () {
     let email = document.querySelector("#email")
     let telefone = document.querySelector("#telefone")
     let aceito = document.querySelector("#aceito")
-    let enviado = document.querySelector("body > main > section > form > ul > li:nth-child(5) > button")
 
     // Eventos do Formulario
     nome.addEventListener('change', () => {
@@ -102,23 +101,21 @@ let sobre_help = (function () {
 
     /*
         Adicionei um MutationObserver
-        cujo é ativado quando o botão de enviar é clicado
+        que é disparado quando o popup aparece
     */
-    enviado.addEventListener('click', () => {
-        let observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                if (mutation.attributeName === "class") {
-                    if ($(mutation.target).hasClass('lightbox-open')) {
-                        ga('send', 'event', 'contato', 'enviado', 'enviado');
-                    }
+    let observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+            if (mutation.attributeName === "class") {
+                if ($(mutation.target).hasClass('lightbox-open')) {
+                    ga('send', 'event', 'contato', 'enviado', 'enviado');
                 }
-            });
+            }
         });
+    });
 
-        observer.observe(document.querySelector("body"), {
-            attributes: true
-        });
-    })
+    observer.observe(document.querySelector("body"), {
+        attributes: true
+    });
 })
 
 // Função de Timeout
