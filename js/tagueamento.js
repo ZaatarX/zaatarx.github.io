@@ -12,10 +12,11 @@ ga('send', 'pageview');
 
 // -------- Page handler -------- 
 
-// toda vez que um novo conteudo é carregado
-// essa função é disparada
-// minha intenção é evitar carregamentos desnecessarios
-
+/*
+    toda vez que um novo conteudo é carregado
+    essa função é disparada
+    minha intenção é evitar carregamentos desnecessarios
+*/
 window.addEventListener('DOMContentLoaded', (event) => {
     var path = window.location.pathname;
     var page = path.split("/").pop();
@@ -72,8 +73,6 @@ let sobre_help = (function () {
     let email = document.querySelector("#email")
     let telefone = document.querySelector("#telefone")
     let aceito = document.querySelector("#aceito")
-
-    // Selector do botão > popup
     let enviado = document.querySelector("body > main > section > form > ul > li:nth-child(5) > button")
 
     // Eventos do Formulario
@@ -101,20 +100,34 @@ let sobre_help = (function () {
         }, 1000);
     })
 
-    // Eu preferi por adicionar um evento no botao
-    // ao inves de adicionar um evento com MutationObserver
-    // selecionando o "Body" com a classe de "lightbox-open"
-    // pois o popup abre apenas se o formulario for validado
+    /*
+        Adicionei um MutationObserver
+        cujo é ativado quando o botão de enviar é clicado
+    */
     enviado.addEventListener('click', () => {
-        ga('send', 'event', 'contato', 'enviado', 'enviado');
+        let observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.attributeName === "class") {
+                    if ($(mutation.target).hasClass('lightbox-open')) {
+                        ga('send', 'event', 'contato', 'enviado', 'enviado');
+                        console.log(ga.q);
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.querySelector("body"), {
+            attributes: true
+        });
     })
 })
 
 // Função de Timeout
 
-// Essa função da um tempo de delay para quando
-// o usuario parar de digitar antes de atirar o evento
-
+/*
+    Essa função da um tempo de delay para quando
+    o usuario parar de digitar antes de atirar o evento
+*/
 let delay = (function () {
     let timer = 0;
     return function (callback, ms) {
