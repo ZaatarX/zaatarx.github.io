@@ -21,6 +21,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var page = path.split("/").pop();
 
     switch (page) {
+        case '':
         case 'index.html':
             ga('send', 'pageview', 'index');
             break;
