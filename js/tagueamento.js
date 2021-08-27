@@ -110,7 +110,6 @@ let sobre_help = (function () {
                 if (mutation.attributeName === "class") {
                     if ($(mutation.target).hasClass('lightbox-open')) {
                         ga('send', 'event', 'contato', 'enviado', 'enviado');
-                        console.log(ga.q);
                     }
                 }
             });
